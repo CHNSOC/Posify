@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en" class="h-100">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Upload your Image</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'keypt_gen/cover.css' %}">
+</head>
+
+<body class="d-flex h-100 text-center text-bg-dark">
+
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+        <header class="mb-auto">
+            <div>
+              <h3 class="float-md-start mb-0">Posify</h3>
+              <nav class="nav nav-masthead justify-content-center float-md-end">
+                <a class="nav-link fw-bold py-1 px-0 active" aria-current="page" href="#">Home</a>
+                <a class="nav-link fw-bold py-1 px-0" href="#">Features</a>
+                <a class="nav-link fw-bold py-1 px-0" href="#">Contact</a>
+              </nav>
+            </div>
+          </header>
+          <div class="row">
+            <div class="col-sm-5">
+              {% if img_obj %}
+                  <img class="img-fluid rounded" src="{{ img_obj.image.url}}" alt="{{img_obj.title}}">
+              {% else %}
+                {% if imgpath %}
+                  <img class="img-fluid rounded" src="../media/{{imgpath}}" alt="">
+                {% endif %}
+              {% endif %}
+              <div class="row mt-3">
+                <div class="col-sm-12"><a href="resetImage" class="btn btn-lg btn-primary fw-bold border-primary bg-primary">New Image</a></div>
+              </div>
+              <form method="post" action="reSearchWithNewThreshold">
+                {% csrf_token %}
+                <input type="hidden" name="imageName" id = "imageName" value="">
+                <div class="row mt-3">
+                  <label for="simSlider" class="form-label"> Similarity </label>
+                  <input type="text" name="simSlider" id="simSlider">
+                </div>
+                <div class="row mt-3">
+                  <div class="col-sm-12">
+                    <input type="submit" class="btn btn-lg btn-primary fw-bold border-primary bg-primary" value="Refresh">
+                  </div>
+                </div>
+              </form> 
+            </div>
+            <div class="col-sm-7">
+              <div class="row">
+                {% if dict_of_matched_files %}
+                  {% for pathName, similarity in dict_of_matched_files.items %}
+                    <div class="col-lg-3 col-md-4 col-xs-6">
+                      <a href="{% static pathName %}" class="d-block mb-4">
+                        <img src="{% static pathName %}" class="img-thumbnail" alt="">
+                      </a>
+                      <p>
+                        "{{ similarity }}"
+                      </p>
+                    </div>
+                  {% endfor %}
+                {% endif %}
+              </div>
+            </div>
+          </div>
+
+        <footer class="mt-auto text-white-50">
+            <p>Cover template for <a href="https://getbootstrap.com/" class="text-white">Bootstrap</a>, by <a
+                    href="https://twitter.com/mdo" class="text-white">@mdo</a>.</p>
+        </footer>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

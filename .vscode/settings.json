@@ -1,0 +1,5 @@
+{
+    "python.analysis.extraPaths": [
+        "./keypt_gen/posematching"
+    ]
+}
