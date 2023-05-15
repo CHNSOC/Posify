@@ -106,9 +106,18 @@
           <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="input-group">
-              {{ form.title }}
               {{ form.image }}
             </div>
+            
+              <!-- {% if form.errors %}
+              <ul class="errorlist">
+                {% for field_errors in form.errors.values %}
+                  {% for error in field_errors %}
+                    <li>{{ error }}</li>
+                  {% endfor %}
+                {% endfor %}
+              </ul>
+              {% endif %} -->
             <div class="modal-footer">
               <button type="submit" class="btn btn-primary">Submit</button>
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

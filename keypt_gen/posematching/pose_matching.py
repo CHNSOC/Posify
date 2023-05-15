@@ -20,7 +20,11 @@ def parse_JSON_single_person(filename):
         data = json.load(data_file)
 
     #Keypoints
-    keypointsPeople1 = data["people"][-1]["pose_keypoints_2d"] # -1 for the only person in the picture
+    try:
+        keypointsPeople1 = data["people"][-1]["pose_keypoints_2d"] # -1 for the only person in the picture
+    except IndexError as ie:
+        print("Error: No person detected in the picture")
+        return np.ones((25,2))
 
     array = np.zeros((25,2))
     arrayIndex = 0

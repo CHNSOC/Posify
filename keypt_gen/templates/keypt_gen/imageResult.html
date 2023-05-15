@@ -36,19 +36,49 @@
               <div class="row mt-3">
                 <div class="col-sm-12"><a href="resetImage" class="btn btn-lg btn-primary fw-bold border-primary bg-primary">New Image</a></div>
               </div>
-              <form method="post" action="reSearchWithNewThreshold">
+              <form method="post" id="searchForm" action="reSearchWithNewThreshold">
                 {% csrf_token %}
-                <input type="hidden" name="imageName" id = "imageName" value="">
+                <input type="hidden" name="imageName" id = "imageName" value="">                
                 <div class="row mt-3">
-                  <label for="simSlider" class="form-label"> Similarity </label>
-                  <input type="text" name="simSlider" id="simSlider">
-                </div>
-                <div class="row mt-3">
-                  <div class="col-sm-12">
-                    <input type="submit" class="btn btn-lg btn-primary fw-bold border-primary bg-primary" value="Refresh">
+                  <label for="simSlider" class="form-label">Similarity: <span id="sliderValue"></span> </label>
+                  <div id="slider">
+                    <input type="hidden" name="simSlider" id="simSlider" value="">
                   </div>
+                  
                 </div>
               </form> 
+              <script src="https://cdn.jsdelivr.net/npm/nouislider"></script>
+              <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.0/nouislider.css" integrity="sha512-MKxcSu/LDtbIYHBNAWUQwfB3iVoG9xeMCm32QV5hZ/9lFaQZJVaXfz9aFa0IZExWzCpm7OWvp9zq9gVip/nLMg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+              <script>
+                // Initialize the slider
+                var slider = document.getElementById('slider');
+                noUiSlider.create(slider, {
+                  start: 0, // Set the initial value here
+                  range: {
+                    'min': 0,
+                    'max': 1 // Set the maximum value here
+                  }
+                });// Update the hidden input field with the slider value
+                
+                var simSliderInput = document.getElementById('simSlider');
+                var sliderValueElement = document.getElementById('sliderValue');
+
+                var storedValue = localStorage.getItem('sliderValue');
+                if (storedValue) {
+                  slider.noUiSlider.set(storedValue);
+                  sliderValueElement.textContent = storedValue
+                }
+
+                slider.noUiSlider.on('update', function(values, handle) {
+                  simSliderInput.value = values[handle];
+                  sliderValueElement.textContent = values[handle]; // Update the label text
+                });
+
+                slider.noUiSlider.on('change', function(values, handle) {
+                  document.getElementById('searchForm').submit(); // Submit the form
+                  localStorage.setItem('sliderValue', values[handle]);
+                });
+              </script>
             </div>
             <div class="col-sm-7">
               <div class="row">

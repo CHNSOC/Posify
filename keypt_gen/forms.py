@@ -16,3 +16,9 @@ class ImageForm(forms.ModelForm):
             'aria-describedby':'inputGroupFileAddon04',
             'aria-label':'Upload'
         })
+    def clean(self):
+        cleaned_data = super().clean()
+        title = cleaned_data.get('title')
+        if not title:
+            cleaned_data['title'] = 'Default Title'
+        return cleaned_data

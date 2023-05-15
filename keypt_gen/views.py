@@ -43,7 +43,6 @@ def resetImage(request):
 
     imageDir = r"C:\Users\Reychard\Posify_Django\media\images"
     for x in os.listdir(imageDir):
-         if x.endswith(".jpg"):
             os.remove(imageDir +"\\"+ x)
     JSONDir = r"C:\Users\Reychard\Posify_Django\media\jsons"
     for x in os.listdir(JSONDir):
